@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.views.generic.edit import CreateView
 import json
+from .email import send_welcome_email
 
 User = get_user_model()
 # Create your views here.
@@ -67,6 +68,11 @@ def create_user(request,house_id):
                tenant=form.save(commit=False)
                tenant.house_name=house
                tenant.user=user
+              
+               # recipient = Tenant(name = name,email =email)
+               # name = form.cleaned_data['first_name']
+               # email = form.cleaned_data['email']
+               # send_welcome_email(name,email)
                tenant.save()
                if error==False:
                     return redirect('home')
@@ -147,3 +153,20 @@ def view_tenant(request, name):
        raise Http404("This house is vacant")
      
      return render(request, 'user_profile.html',locals() )
+
+@login_required(login_url='/accounts/login')
+def welcome_email(request):
+     tenant=request.user.tenant
+     email = tenant.email
+     name = tenant.first_name
+     send_welcome_email(name,email,tenant)
+     
+     return render(request, 'pay.html')
+     
+
+
+
+
+
+
+

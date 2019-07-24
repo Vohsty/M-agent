@@ -14,7 +14,9 @@ urlpatterns=[
     url(r'^view_houses/([A-Za-z0-9\s]+)/$', views.view_houses, name='view_houses'),
     url(r'^view_tenant/([A-Za-z0-9\s]+)/$', views.view_tenant, name='view_tenant'),
     url(r'^pay_with_mpesa$', views.pay_with_mpesa, name='pay-with-mpesa'),
-    url(r"^magent_callback",views.stk_push_callback,name='mpesa_stk_push_callback')
+    url(r"^magent_callback",views.stk_push_callback,name='mpesa_stk_push_callback'),
+    url(r'^welcome_email/$', views.welcome_email, name='testemail')
+    
 
     ]
 if settings.DEBUG:

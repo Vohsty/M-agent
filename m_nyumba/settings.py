@@ -156,3 +156,9 @@ ACCESS_TOKEN='OAlLmobLo2nGhwnMGEFv6HAMTYrn'
 MPESA_PASSKEY = 'bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919'
 
 AUTH_USER_MODEL = 'agent.User'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'alvinmichoma@gmail.com'
+EMAIL_HOST_PASSWORD = 'itisfinallyhere'

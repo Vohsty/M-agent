@@ -82,7 +82,7 @@ class Building(models.Model):
         self.save()
 
 class House(models.Model):
-    occupant=models.ForeignKey('Tenant',on_delete=models.CASCADE,related_name="tenant_house",null=True)
+    # occupant=models.ForeignKey('Tenant',on_delete=models.CASCADE,related_name="tenant_house",null=True)
     house_choice = [('B', 'B-sitter'), ('1Br', 'One Bedroom'), ('2Br', 'Two Bedroom'),('3Br', 'Three Bedroom')]
     house_type = models.CharField(choices=house_choice,max_length=3,default=None,null=True)
     house_floor = models.CharField(max_length=5,null=True)
