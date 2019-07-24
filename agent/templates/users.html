@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+
+
+
+{% block content %}
+{{block.super}}
+<div class="container">
+
+
+    <div class="row">
+        
+        <table class="table">
+            <thead class="default-color white-text">
+                <tr>
+                    <th scope="col">House</th>
+                    <th scope="col">House Floor</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Plot</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            {% for room in this_house %}
+            <tr>
+                <td>{{ room.name }} <a href="{% url 'view_tenant' room.name %}"><i class="fas fa-address-card"></i></a></td>
+                <td>{{ room.house_floor }}</td>
+                <td>{{ room.house_type }}</td>
+                <td>{{rent.plot_number}}</td>
+                {% if room.vacant %}
+                <td style=" color: green ">Vacant</td>
+                {% else %}
+                <td style=" color: green ">Occupied</td>
+                {% endif %}
+                <td><a href="{% url 'add_user' room.id %}" class="btn btn-primary btn-sm">Add Tenant</a></td>
+              
+              
+            </tr>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

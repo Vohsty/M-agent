@@ -1,0 +1,51 @@
+{%extends 'base.html'%}
+
+
+
+{% block content %}
+{{block.super}}
+<div class="row">
+    <div class="col-md-4">
+        <!-- Card -->
+        <div class="card">
+<div class="card">
+   
+    <div class="card-header ">
+        {% if user.image %}
+
+        <img class="card-img-top" src="{{user.image.url}}" alt="Card image cap">
+
+
+        {%else%}
+        <img class="card-img-top" src="https://i.imgur.com/d5qbFQk.jpg" alt="Card image cap">
+
+
+        {% endif %}
+    </div>
+    <div class="card-body">
+
+        <form method="POST" action enctype="multipart/form-data">
+            {% csrf_token %}
+             form
+            <input type="file" name="photo" class="form-control" required>
+            <input type="submit">
+        </form>
+
+    </div>
+</div>
+<!-- Card content -->
+<div class="card-body">
+
+    <!-- Title -->
+   
+    <h5 class="card-title"><a>Name:</a>{{user.first_name}} {{user.last_name}}</h5>
+    <h5 class="card-title"><a>House:</a>{{user.house_number}}</h5>
+
+
+</div>
+
+</div>
+<!-- Card -->
+</div>
+</div>
+{% endblock %}

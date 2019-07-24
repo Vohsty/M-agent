@@ -1,0 +1,44 @@
+{%extends 'base.html'%}
+
+
+
+{% block content %}
+{{block.super}}
+<div class="container">
+  
+    <div class="row">
+        <table class="table">
+            <thead class="default-color white-text">
+                <tr>
+                    <th scope="col">House</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">From</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if user %}
+                {% for rent in user %}
+                <tr>
+                    <td>{{rent.house_number}}</td>
+                    <td>{{rent.first_name}} {{rent.last_name}}</td>
+                    <td>{{rent.phone_number}}</td>
+                    <td>{{rent.email}}</td>
+                    <td>{{rent.post_date}}</td>
+                    <td><a href="{% url 'user_profile' rent.id%}" class="btn btn-primary btn-sm">Profile</a></td>
+                </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td>No user exists</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{{form}}
+{% endblock %}

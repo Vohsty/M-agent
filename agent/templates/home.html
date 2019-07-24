@@ -1,0 +1,146 @@
+{%extends 'base.html'%}
+{% load static %}
+
+
+{% block content %}
+    {{block.super}}
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <div class="burner" style="height: 250px">
+
+        <!--Carousel Wrapper-->
+        <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+            <!--Indicators-->
+            <ol class="carousel-indicators">
+                <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+                <li data-target="#carousel-example-2" data-slide-to="1"></li>
+                <li data-target="#carousel-example-2" data-slide-to="2"></li>
+            </ol>
+            <!--/.Indicators-->
+            <!--Slides-->
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <div class="view">
+                        <img class="d-block w-100"
+                            src="https://wallpaperstream.com/wallpapers/full/new-york-city/New-York-City-Background.jpg"
+                            alt="First slide" height="250px">
+                        <div class="mask rgba-black-strong"></div>
+                    </div>
+                    <div class="carousel-caption">
+                        <h1 class="page-title">
+                            M-AGENT
+                        </h1>
+                       
+       
+                        <div class="circles">
+                            <div class="first circle">
+                            <a href="{% url 'create_building'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add Building</a>
+                            <a href="{% url 'create_house'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add House</a>
+                          
+                            </div>
+        
+                            
+        
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <!--Mask color-->
+                    <div class="view">
+                        <img class="d-block w-100" src="https://images-na.ssl-images-amazon.com/images/I/A1tBu%2Bc7XbL._SL1500_.jpg"
+                            alt="Second slide" height="250px">
+                        <div class="mask rgba-black-strong"></div>
+                    </div>
+                    <div class="carousel-caption">
+                        <h1 class="page-title">
+                            M-AGENT
+                        </h1>
+                        
+                        <div class="circles">
+                            <div class="first circle">
+                            <a href="{% url 'create_building'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add Building</a>
+                            <a href="{% url 'create_house'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add House</a>
+                           
+                            </div>
+        
+        
+                        </div>
+                       
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <!--Mask color-->
+                    <div class="view">
+                        <img class="d-block w-100" src="https://informationcradle.com/kenya/directory/wp-content/uploads/2017/05/Swahili-Beach-Hotel1.jpg"
+                            alt="Third slide" height="250px">
+                        <div class="mask rgba-black-strong"></div>
+                    </div>
+                    <div class="carousel-caption">
+                        <h1 class="page-title">
+                            M-AGENT
+                        </h1>
+                       
+        
+                        <div class="circles">
+                            <div class="first circle">
+                            <a href="{% url 'create_building'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add Building</a>
+                            <a href="{% url 'create_house'%}" class="btn btn-primary btn-sm" style="margin-top: 5%;">Add House</a>
+                           
+                            </div>
+        
+        
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+            <!--/.Slides-->
+            <!--Controls-->
+            <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        
+        </div>
+    </div>
+    <div class="container" >
+        <div class="row">            
+            <table class="table">
+                <thead class="blue-gradient white-text">
+                    <tr>
+                        <th scope="col">Building</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Street</th>
+                        <th scope="col">Plot</th>
+                        <th scope="col">Houses</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if buildings %}
+                    {% for rent in buildings %}
+                    <tr> 
+                        <td>{{rent.building_name}}<i class="fas fa-home"></i></td>
+                        <td>{{rent.building_location}}</td>
+                        <td>{{rent.street}}</td>
+                        <td>{{rent.plot_number}}</td>
+                        <td>{{rent.house}}</td>
+                        
+                        <td><a href="{% url 'view_houses' rent.building_name%}" class="btn btn-primary btn-sm">Tenants</a></td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr><td>No user exists</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{form}}
+{% endblock %}
+
