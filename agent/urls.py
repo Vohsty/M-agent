@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.conf.urls.static import static
 from django.conf import settings
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns=[
     url('^$', views.home, name = 'home'),
@@ -15,6 +16,7 @@ urlpatterns=[
     url(r'^view_tenant/([A-Za-z0-9\s]+)/$', views.view_tenant, name='view_tenant'),
     url(r'^pay_with_mpesa$', views.pay_with_mpesa, name='pay-with-mpesa'),
     url(r"^magent_callback",views.stk_push_callback,name='mpesa_stk_push_callback')
+   
 
     ]
 if settings.DEBUG:

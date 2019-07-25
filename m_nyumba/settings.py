@@ -139,6 +139,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MPESA_ENVIRONMENT = 'sandbox'
 LOGIN_REDIRECT_URL = 'home'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Credentials for the daraja app
 
 MPESA_CONSUMER_KEY='KmM1UrQn6yeYzXhrfbJnUqGYAGoU5ze1'
