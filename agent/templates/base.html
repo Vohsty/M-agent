@@ -1,0 +1,102 @@
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> {% if title %} {{title}} {% else %} Lock {% endif %} </title>
+    {% endblock %}
+
+    {% block styles %}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/css/mdb.min.css" rel="stylesheet">
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.0/js/mdb.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+
+    {% endblock %}
+</head>
+
+<body>
+    {% block navbar %}
+    {% include "navbar.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+
+
+    </head>
+
+    <body>
+
+
+        {% block scripts %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        {{block.super}}
+
+        <head>
+            <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.3/clipboard.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+            <!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
+            <script>
+                function copyToClipboard(element) {
+                    $(element).select();
+                    document.execCommand("copy");
+                }
+                var gallery = document.querySelector('#gallery');
+                var getVal = function (elem, style) { return parseInt(window.getComputedStyle(elem).getPropertyValue(style)); };
+                var getHeight = function (item) { return item.querySelector('.content').getBoundingClientRect().height; };
+                var resizeAll = function () {
+                    var altura = getVal(gallery, 'grid-auto-rows');
+                    var gap = getVal(gallery, 'grid-row-gap');
+                    gallery.querySelectorAll('.gallery-item').forEach(function (item) {
+                        var el = item;
+                        el.style.gridRowEnd = "span " + Math.ceil((getHeight(item) + gap) / (altura + gap));
+                    });
+                };
+                gallery.querySelectorAll('img').forEach(function (item) {
+                    item.classList.add('byebye');
+                    if (item.complete) {
+                        console.log(item.src);
+                    }
+                    else {
+                        item.addEventListener('load', function () {
+                            var altura = getVal(gallery, 'grid-auto-rows');
+                            var gap = getVal(gallery, 'grid-row-gap');
+                            var gitem = item.parentElement.parentElement;
+                            gitem.style.gridRowEnd = "span " + Math.ceil((getHeight(gitem) + gap) / (altura + gap));
+                            item.classList.remove('byebye');
+                        });
+                    }
+                });
+                window.addEventListener('resize', resizeAll);
+                gallery.querySelectorAll('.gallery-item').forEach(function (item) {
+                    item.addEventListener('click', function () {
+                        item.classList.toggle('full');
+                    });
+                });
+
+            </script>
+            {% endblock %}
+    </body>
+
+    </html>
