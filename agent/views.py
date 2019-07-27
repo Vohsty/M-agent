@@ -77,28 +77,28 @@ def create_user(request,house_id):
 
                user.save()
 
-               # tenant=form.save(commit=False)
-               # tenant.house_name=house
-               # tenant.user=user
-               # tenant.save()
-               # otp=tenant.generate_otp_password()
-               # pin=tenant.create_pin()    
-               # url=request.build_absolute_uri("/accounts/login")
-               # email_subject = 'Activate Your Account'
-               # message = '''
-               # Hi 
-               # Welcome to M-agent
-               # You have been assigned to house no 
-               # Your account details are as follows
+               tenant=form.save(commit=False)
+               tenant.house_name=house
+               tenant.user=user
+               tenant.save()
+               otp=tenant.generate_otp_password()
+               pin=tenant.create_pin()    
+               url=request.build_absolute_uri("/accounts/login")
+               email_subject = 'Activate Your Account'
+               message = '''
+               Hi 
+               Welcome to M-agent
+               You have been assigned to house no 
+               Your account details are as follows
                
-               # Your Login: {email}
-               # Your password: {otp}
-               # Your pin: {pin}
-               # To sign into your account please visit {url}
-               # '''.format(email=form.cleaned_data.get('email'), otp=otp, pin=pin, url=url)
-               # to_email = form.cleaned_data.get('email')
-               # email = EmailMessage(email_subject, message, to=[to_email])
-               # email.send()
+               Your Login: {email}
+               Your password: {otp}
+               Your pin: {pin}
+               To sign into your account please visit {url}
+               '''.format(email=form.cleaned_data.get('email'), otp=otp, pin=pin, url=url)
+               to_email = form.cleaned_data.get('email')
+               email = EmailMessage(email_subject, message, to=[to_email])
+               email.send()
 
               
 

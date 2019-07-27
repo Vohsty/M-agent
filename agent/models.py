@@ -43,18 +43,18 @@ class Tenant(models.Model):
 
     
 
-    # def create_pin(self):
-    #     pin= random.randint(10000,99999)
-    #     if Tenant.objects.filter(pin=pin).first():
-    #         self.create_pin()
-    #     self.pin="{pin}".format(pin=pin)
-    #     self.save()
-    #     return pin
-    # def generate_otp_password(self):
-    #     otp=os.urandom(4).hex()
-    #     self.user.set_password(otp)
-    #     self.user.save()
-    #     return otp
+    def create_pin(self):
+        pin= random.randint(10000,99999)
+        if Tenant.objects.filter(pin=pin).first():
+            self.create_pin()
+        self.pin="{pin}".format(pin=pin)
+        self.save()
+        return pin
+    def generate_otp_password(self):
+        otp=os.urandom(4).hex()
+        self.user.set_password(otp)
+        self.user.save()
+        return otp
 
     
 
