@@ -157,7 +157,7 @@ def view_houses(request, building_name):
 def view_tenant(request, name):
      try:
        user = Tenant.objects.get(house_name=name)
-       
+       print(user.image)
 
      except User.DoesNotExist:
        raise Http404("This house is vacant")
