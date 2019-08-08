@@ -1,1 +1,1 @@
-web: gunicorn awwwards.wsgi --log-file -
+web: gunicorn m_nyumba.wsgi --log-file -
