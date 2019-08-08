@@ -48,7 +48,7 @@ def pay_with_mpesa(request):
           amount = rent
      account_reference = 'reference'
      transaction_desc = 'Description'
-     callback_url = 'https://ca7b3ce9.ngrok.io/magent_callback'
+     callback_url = 'https://m-agent.herokuapp.com/magent_callback'
      response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
      print(response.text)
      return redirect('home')
