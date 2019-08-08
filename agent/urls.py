@@ -12,7 +12,7 @@ urlpatterns=[
     url(r'^create_building/$', views.create_building, name='create_building'),
     url(r'^create_house/$', views.create_house, name='create_house'),
     url(r'^view_houses/([A-Za-z0-9\s]+)/$', views.view_houses, name='view_houses'),
-    url(r'^view_tenant/([A-Za-z0-9\s]+)/$', views.view_tenant, name='view_tenant'),
+    url(r'^view_tenant/([0-9\s]+)/$', views.view_tenant, name='view_tenant'),
     url(r'^pay_with_mpesa$', views.pay_with_mpesa, name='pay-with-mpesa'),
     url(r"^magent_callback",views.stk_push_callback,name='mpesa_stk_push_callback')
 

@@ -10,6 +10,10 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 admin.site.register(Building)
 admin.site.register(House)
 admin.site.register(Landlord)
+admin.site.register(
+    Transactions,
+    list_display=["tenant","amount","short_code","created_at"]
+)
 
 class UserCreationForm(forms.ModelForm):
     username = forms.CharField(max_length =30,label='Username')

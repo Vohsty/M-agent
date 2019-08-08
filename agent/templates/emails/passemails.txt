@@ -1,0 +1,6 @@
+Hello {{first_name}}
+
+Welcome to M-agent. You are now a tenant of {{ building_name}} and your house number is {{name}}. Please click on the link below to change your password. (insert link). For security purposes, change your password now. 
+
+Regards,
+m-agent.

@@ -37,9 +37,23 @@ class Tenant(models.Model):
         max_length=1,
         default=None,
         null=True)
-    house_name = models.OneToOneField('House', on_delete=models.CASCADE, null=True)
+    house_name = models.OneToOneField('House', on_delete=models.DO_NOTHING, null=True,related_name="occupant")
+    my_house = models.CharField(max_length = 10,unique=True,null=True)
     def __str__(self):
         return self.first_name
+
+    def create_pin(self):
+        pin= random.randint(10000,99999)
+        if Tenant.objects.filter(pin=pin).first():
+            self.create_pin()
+        self.pin="{pin}".format(pin=pin)
+        self.save()
+        return pin
+    def generate_otp_password(self):
+        otp=os.urandom(4).hex()
+        self.user.set_password(otp)
+        self.user.save()
+        return otp
 
     
 
@@ -87,12 +101,12 @@ class Building(models.Model):
         self.save()
 
 class House(models.Model):
-    occupant=models.ForeignKey('Tenant',on_delete=models.CASCADE,related_name="tenant_house",null=True)
     house_choice = [('B', 'B-sitter'), ('1Br', 'One Bedroom'), ('2Br', 'Two Bedroom'),('3Br', 'Three Bedroom')]
     house_type = models.CharField(choices=house_choice,max_length=3,default=None,null=True)
     house_floor = models.CharField(max_length=5,null=True)
     name = models.CharField(max_length=10)
-    vacant = models.BooleanField(default=False)
+    rent=models.PositiveIntegerField(default=1)
+    vacant = models.BooleanField(default=True)
     building = models.ForeignKey('Building', on_delete=models.CASCADE,null=True,related_name="building_houses")
     
 
@@ -114,4 +128,18 @@ class SecurityCards(models.Model):
 
 
 
+class Transactions(models.Model):
+    tenant=models.ForeignKey(Tenant, related_name="payments",on_delete=models.DO_NOTHING,null=True)
+    house=models.ForeignKey(House,related_name="rents",on_delete=models.DO_NOTHING,null=True)
+    amount=models.PositiveIntegerField(null=True)
+    created_at=models.DateTimeField(auto_now_add=True)
+    short_code=models.CharField(max_length=255,null=True)
+    meta=models.TextField(null=True)
+
+    class Meta:
+        verbose_name_plural="Transactions"
+
+    
+    def __str__(self):
+        return "Transaction:{id}".format(id=self.id)
    

@@ -1,0 +1,15 @@
+Hello {{first_name}}
+
+Amount payed: {{amount}}
+Short code: {{short_code}}
+Date of payment {{time}}
+House {{house_name}}
+
+
+
+Thank you for your business - we appreciate it very much.
+
+
+
+Regards,
+M-agent.

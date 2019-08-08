@@ -10,6 +10,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
 from django.contrib.sites.shortcuts import get_current_site
+from .email import send_welcome_email, send_payment_email
 import json
 
 User = get_user_model()
@@ -22,20 +23,32 @@ def home(request):
           landlord= request.user.landlord
           buildings=landlord.buildings.all()
           return render(request, 'home.html',{"buildings":buildings})
+
      except Landlord.DoesNotExist:           
           user=request.user
-          return render(request, 'pay.html',{'user':user} )
-                         
+          try:
+               tenant=Tenant.objects.get(user=user)
+               return render(request, 'pay.html',{'user':user} )
+          except Tenant.DoesNotExist:
+               return HttpResponse("You must be a Landlord or Tenant to access this page")
+
+
+     except Exception as e:
+          print(e)
+          return "You must be a Landlord or Tenant to access this page"
+
           
 @login_required(login_url='/accounts/login')
 def pay_with_mpesa(request):
      cl = MpesaClient()
      tenant=request.user.tenant
      phone_number = tenant.phone_number
-     amount = 70
+     rent=request.user.tenant.house_name.rent
+     if rent and type(rent)==int:
+          amount = rent
      account_reference = 'reference'
      transaction_desc = 'Description'
-     callback_url = 'https://0bdb7a03.ngrok.io/magent_callback'
+     callback_url = 'https://ca7b3ce9.ngrok.io/magent_callback'
      response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
      print(response.text)
      return redirect('home')
@@ -49,16 +62,36 @@ def welcome_email(request):
 
 @csrf_exempt
 def stk_push_callback(request):
+     try:
+          data = request.body
+          print("wacha ufala")
+          json_data=json.loads(data.decode())
+          # print(json_data)
+          if json_data["Body"]["stkCallback"]["ResultCode"]==0:
+               phone=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
+               amount=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Value"]
+               short_code=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+               time=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
+               print(phone,amount,short_code)
+               phone_number=str(phone).replace("254","0")
+               print(phone_number)
+               tenant=Tenant.objects.get(phone_number=phone_number)
+               transaction=Transactions(tenant=tenant,amount=amount,short_code=short_code)
+               transaction.house=tenant.house_name
+               transaction.meta=data.decode()
+               transaction.save()
+               send_payment_email(tenant,transaction)
+          else:
+               error=json_data["Body"]["stkCallback"]["ResultDesc"]
+               print(error)
 
-        data = request.body
-        print("wacha ufala")
-        json_data=json.loads(data.decode())
-       
-        trans_code=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
-        time=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
-        phone=json_data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
-        print(phone)
-        return HttpResponse("success")
+     except Tenant.DoesNotExist:
+          print("Tenant does not exist")
+
+     except Exception as e:
+          print(e)
+
+     return HttpResponse("success")
 
 def create_user(request,house_id):
      form=CreateUserForm()
@@ -74,19 +107,32 @@ def create_user(request,house_id):
                if Tenant.objects.filter(phone_number=form.cleaned_data['phone_number']).first():
                     error="User with this Phone Number already exists"
                user=User(username=form.cleaned_data["email"])
+               
 
                user.save()
 
                tenant=form.save(commit=False)
+               house.vacant= False
                tenant.house_name=house
+               # tenant.my_house=house
                tenant.user=user
+               house.save()
                tenant.save()
+               
+               otp=tenant.generate_otp_password()
+               pin=tenant.create_pin()    
+               url=request.build_absolute_uri("/accounts/login")
+               tenant=user.tenant
+               email = tenant.email
+               name = tenant.first_name
+               send_welcome_email(name,email,tenant,pin,otp,url)
               
 
 
                if error==False:
                     return redirect('home')
           else:
+               house.vacant= True
                print(form.errors)
      return render(request, "registration.html",{"form":form,"error":error,"house_id":house_id})   
 
@@ -154,12 +200,13 @@ def view_houses(request, building_name):
 
 
 @login_required(login_url='/accounts/login')
-def view_tenant(request, name):
-     try:
-       user = Tenant.objects.get(house_name=name)
-       print(user.image)
+def view_tenant(request, house_id):
+     # try:
+     house=House.objects.get(id=house_id)
+     tenant=house.occupant
+     if not tenant:
+          return Http404("This house is vacant")             
+     return render(request, 'user_profile.html',{"tenant":tenant} )
+     # except Exception e:
+     #      return HttpResponse("Error occured")
 
-     except User.DoesNotExist:
-       raise Http404("This house is vacant")
-     
-     return render(request, 'user_profile.html',locals() )

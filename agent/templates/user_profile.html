@@ -29,9 +29,9 @@
             <!--Display profile photo-->
             <div class="card">
                 <div class="card-header ">
-                    {% if user.image %}
+                    {% if tenant.image %}
 
-                    <!-- <img class="card-img-top" src="{{request.user.image.url}}" alt="Card image cap"> -->
+                    <img class="card-img-top" src="{{tenant.image.url}}" alt="Card image cap">
 
                     {%else%}
                     <img class="card-img-top" src="https://i.imgur.com/d5qbFQk.jpg" alt="Card image cap">
@@ -56,11 +56,11 @@
 
                     <!-- Title -->
 
-                    <h5 class="card-title" style="text-align: center"><a></a>{{request.user.first_name}} {{request.user.last_name}}</h5>
-                    <h5 class="card-title"><a>House:</a>{{request.user.house_number}}</h5>
-                    <h5 class="card-title"><a>ID No:</a>{{request.user.id_number}}</h5>
-                    <h5 class="card-title"><a>Phone No:</a>{{request.user.phone_number}}</h5>
-                    <h5 class="card-title"><a>Date:</a>{{request.user.post_date}}</h5>
+                    <h5 class="card-title" style="text-align: center"><a></a>{{tenant.first_name}} {{tenant.last_name}}</h5>
+                    <h5 class="card-title"><a>House:</a>{{tenant.house_name}}</h5>
+                    <h5 class="card-title"><a>ID No:</a>{{tenant.id_number}}</h5>
+                    <h5 class="card-title"><a>Phone No:</a>{{tenant.phone_number}}</h5>
+                    <h5 class="card-title"><a>Date:</a>{{tenant.post_date}}</h5>
 
                     <!-- Text -->
 

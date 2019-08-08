@@ -23,18 +23,20 @@
             </thead>
             {% for room in this_house %}
             <tr>
-                <td>{{ room.name }} <a href="{% url 'view_tenant' room.name %}"><i class="fas fa-address-card"></i></a></td>
+                <td>{{ room.name }} <a href="{% url 'view_tenant' room.id %}"><i class="fas fa-address-card"></i></a></td>
                 <td>{{ room.house_floor }}</td>
                 <td>{{ room.house_type }}</td>
                 <td>{{rent.plot_number}}</td>
-                {% if room.vacant %}
+                {% if not room.occupant %}
                 <td style=" color: green ">Vacant</td>
                 {% else %}
                 <td style=" color: green ">Occupied</td>
                 {% endif %}
+                {% if not room.occupant %}
                 <td><a href="{% url 'add_user' room.id %}" class="btn btn-primary btn-sm">Add Tenant</a></td>
-              
-              
+                {% else %}
+                <td><a href="{% url 'view_tenant' room.id %}" class="btn btn-primary btn-sm">View Tenant</a></td>
+                {% endif %}
             </tr>
 
     </div>
